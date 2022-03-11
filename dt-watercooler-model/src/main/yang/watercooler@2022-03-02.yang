@@ -1,0 +1,131 @@
+module watercooler {
+
+    yang-version 1.1;
+    namespace "urn:dt-network-automation-demo:watercooler";
+    prefix wtrclr;
+
+    organization "Deutsche Telekom AG";
+    contact "Arne Chrestin <arne.chrestin@telekom.de>";
+
+    description "Simple watercooler YANG model.";
+
+    revision "2022-03-02" {
+      description "Initial version of the watercooler module.";
+    }
+
+    typedef DisplayString {
+      type string {
+        length "0 .. 255";
+      }
+      description
+        "YANG version of the SMIv2 DisplayString TEXTUAL-CONVENTION.";
+      reference
+        "RFC 2579, section 2.";
+
+    }
+
+    container watercooler {
+      description
+        "Top-level container for all watercooler database objects.";
+      leaf watercoolerManufacturer {
+        type DisplayString;
+        config false;
+        mandatory true;
+        description
+          "The name of the watercooler manufacturer.";
+      }
+
+      leaf watercoolerModelNumber {
+        type DisplayString;
+        config false;
+        mandatory true;
+        description
+          "The model type of the watercooler";
+      }
+
+      leaf overflowIndicator {
+        type enumeration {
+          enum off {
+            description "The watercooler fill level is below 99%.";
+          }
+          enum on {
+            description "The watercooler fill level is 99% or higher.";
+          }
+        }
+        config false;
+        description "This variable indicates an overflow of the tank";
+      }
+
+      leaf fillLevel {
+        type uint32{
+            range "0 .. 100";
+          }
+        default 0;
+        config false;
+        description "The fill level of the watercooler in % of tank size.";
+      }
+
+      leaf refillRate {
+        type uint32{
+            range "0 .. 10";
+          }
+        config true;
+        default 0;
+        description
+          "The current refill rate of the watercooler in % of tank size.";
+      }
+    }
+
+    rpc tap {
+      description
+        "Tap some water.
+           Amounts S (5%), M (10%), L (20%) can be selected.
+           A 'tank-empty' error will be returned if the tank
+           runs empty during tapping or is already empty.";
+      input {
+        leaf cupSize {
+          type enumeration {
+             enum S {
+                value 5;
+                description "Tap a cup of water";
+             }
+             enum M {
+                value 10;
+                description "Tap a mug of water";
+             }
+             enum L {
+                value 15;
+                description "Tap a jar of water";
+             }
+          }
+          default S;
+          description "The amount of water to be tapped.";
+        }
+      }
+      output {
+        leaf remainingFillLevel {
+          type uint32{
+            range "0 .. 100";
+          }
+          description "The fill level in % of tank size after the tap attempt.";
+        }
+        leaf tapSuccesful {
+           type enumeration {
+             enum Yes;
+             enum No__insufficient_water_level;
+           }
+           description
+             "Indicates whether water was dispensed. No water is dispensed if the requested cup size cannot be filled.";
+        }
+      }
+    }
+
+    notification overflowWarning {
+      description "Indicates that the watercooler fill level is > 90%.";
+    }
+
+    notification emptyWarning {
+      description "Indicates that the watercooler fill level is < 10%.";
+    }
+
+  }

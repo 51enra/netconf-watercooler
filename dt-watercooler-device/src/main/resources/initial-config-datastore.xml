@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+    <watercooler xmlns="urn:dt-network-automation-demo:watercooler">
+        <refillRate>0</refillRate>
+    </watercooler>
+</data>
