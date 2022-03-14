@@ -7,17 +7,21 @@ The implementation is based on the [lighty.io netconf simulator](https://github.
 
 - Clone the [lighty.io netconf simulator](https://github.com/PANTHEONtech/lighty-netconf-simulator) repository.
 - Clone this repository.
-- Build the netconf simulator dependencies by entering the directory `ccc ` created with the first cloning
+- Build the netconf simulator dependencies by entering the directory `lighty-netconf-simulator` created with the first cloning
   and running Maven:
   ```
   mvn clean install -DskipTests
   ```
-- Build the watercooler simulator by entering the directory `ddd` created with the second cloning
+- Build the watercooler simulator by entering the directory `dt-watercooler` created with the second cloning
   and running Maven:
   ```
   mvn clean install -DskipTests
   ```  
-- Start the watercooler device: `java -jar ...`
+- Start the watercooler device:
+  ```  
+  java -jar ./dt-watercooler-device/target/dt-watercooler-device-1.0.0-SNAPSHOT.jar
+  ```
+  (You can specify a port number for the netconf server at the end of the above command. Deafult is port 17830.)
 - Alternatively to the previous step, open the code in `dt-watercooler-device` in your IDE, inspect, modify and
   run it from there. As long as changes are done only in the code, it is sufficient to re-build this directory.
   If the YANG module in the `dt-watercooler-model/src/yang` directory is modified, the whole dt-watercooler
@@ -28,6 +32,21 @@ The implementation is based on the [lighty.io netconf simulator](https://github.
   `netconf-console2 --host 127.0.0.1 --port 17830 -u admin -p admin`. At the prompt, you can simply type `get` or
   `get-config` to see the contents of the operational or configuration datastore. For further use, please see the
   netconf-console2 documentation.
+
+
+
+**Run device**
+* extract binary distribution in target directory
+* run jar file from zip with default parameter
+```
+java -jar lighty-action-device-15.1.1-SNAPSHOT.jar
+```
+To run device on specific port, add port number as an argument
+* run device on specific port `12345` (any available port)
+```
+java -jar lighty-action-device-15.1.1-SNAPSHOT.jar 12345
+```
+
 
 ## How it works
 
