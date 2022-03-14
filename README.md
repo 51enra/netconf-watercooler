@@ -33,21 +33,6 @@ The implementation is based on the [lighty.io netconf simulator](https://github.
   `get-config` to see the contents of the operational or configuration datastore. For further use, please see the
   netconf-console2 documentation.
 
-
-
-**Run device**
-* extract binary distribution in target directory
-* run jar file from zip with default parameter
-```
-java -jar lighty-action-device-15.1.1-SNAPSHOT.jar
-```
-To run device on specific port, add port number as an argument
-* run device on specific port `12345` (any available port)
-```
-java -jar lighty-action-device-15.1.1-SNAPSHOT.jar 12345
-```
-
-
 ## How it works
 
 The watercooler is a simple application that simulates rising and falling water levels in a tank, based on its interaction
@@ -110,4 +95,13 @@ be written at startup to the watercooler's operational and configuration data st
 (`log4j.properties`) is a 1:1 copy of the `log4j.properties` in a parent project and as such could be removed without
 any effect. It is useful for quickly changing the logging to `debug` or `trace` level during own experiments with the
 watercooler, if desired.
+
+## Advanced usage
+
+Several other example netconf server implementations are contained in the `lighty-netconf-simulator/examples` folder.
+If you want to add additional functionality to the watercooler, reviewing these examples as well as the code
+of the lighty-netconf-device itself is highly recommended.
+
+The in-memory data store of the netconf simulator is based on the OpenDaylight YANG tools, which are described
+[here](https://docs.opendaylight.org/en/latest/developer-guides/yang-tools.html). 
 
